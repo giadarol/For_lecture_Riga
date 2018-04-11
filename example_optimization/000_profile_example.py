@@ -37,7 +37,8 @@ def rotate_particles_vect(x, xp):
     xp[:] = xp_new
     
     
-import rotate_cython as rc
+import myfunc as rc
+import rotate_fortran as rf
 
 
 #@profile
@@ -55,6 +56,16 @@ def doit_cython():
     N_part = 1000000
     x, xp = generate_particles(N_part)
     rc.rotate_particles(x, xp)
+    
+def doit_cython_opt():
+    N_part = 1000000
+    x, xp = generate_particles(N_part)
+    rc.rotate_particles_opt(x, xp)
+
+def doit_fortran():
+    N_part = 1000000
+    x, xp = generate_particles(N_part)
+    rf.rotate_fortran(x, xp)
 
 doit()
 
@@ -67,7 +78,15 @@ print('Exec. time vect: %.2f s'%exectime)
 
 import timeit
 exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
-print('Exec. time vect: %.2f s'%exectime)
+print('Exec. time cython: %.2f s'%exectime)
+
+import timeit
+exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
+print('Exec. time cython opt: %.2f s'%exectime)
+
+import timeit
+exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
+print('Exec. fortran: %.2f s'%exectime)
 
 # to profile:
 # kernprof --view -l 000_profile_example.py
