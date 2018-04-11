@@ -1,0 +1,5 @@
+#!/bin/bash
+
+python setup.py build_ext
+
+mv build/lib*/rotate_cython*.so rotate_cython.so
