@@ -3,3 +3,4 @@ tmp*
 build/
 *.so
 *.o
+*.png
