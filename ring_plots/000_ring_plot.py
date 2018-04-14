@@ -3,6 +3,8 @@ import numpy as np
 from scipy.constants import c as clight
 import time
 
+import mystyle as ms
+
 sigmaz = 30.
 
 R_ring = 100.
@@ -23,23 +25,32 @@ Y_ring = R_ring*np.sin(theta_ring)
 L_ring = 2*np.pi*R_ring
 T_rev = L_ring/clight
 
-N_turns = 30
-N_frames = 500
+N_turns = 20
+N_frames = 400
 
 t_vect = np.linspace(0, N_turns*T_rev, N_frames)
 i_turn_vect = np.arange(0, (N_turns+2), 1.)
 
-fname = 'damped'
-Amplx_vect_turn = 10 * np.exp(-i_turn_vect/10) 
 
+fname = 'stationary'
+Amplx_vect_turn = 0 * np.exp(-i_turn_vect/10)
 
-Amplx_vect_turn = 1 * np.exp(i_turn_vect/10) 
+# fname = 'damped'
+# Amplx_vect_turn = 5 * np.exp(-i_turn_vect/10) 
+
+# fname = 'instab'
+# Amplx_vect_turn = 1 * np.exp(i_turn_vect/10) 
 
 plt.close('all')
-plt.figure(1, figsize=(8*1.7,6))
+ms.mystyle_arial(fontsz=16)
+fig1 = plt.figure(1, figsize=(8*1.7,6))
+fig1.set_facecolor('w')
 plt.ion()
 sp1 = plt.subplot(1,2,1)
 sp2 = plt.subplot(1,2,2)
+sp2.set_xlabel('Turn')
+sp2.set_ylabel('Oscillation amplitude')
+
 
 for ii, tt in enumerate(t_vect):
 
@@ -58,27 +69,38 @@ for ii, tt in enumerate(t_vect):
 
 	sp1.clear()
 
-	sp1.plot(X_ring, Y_ring)
+	sp1.plot(X_ring, Y_ring, linewidth=3)
 	sp1.axis('equal')
+	sp1.axis('off')
 
 	sp1.set_xlim(-R_ring*1.1, R_ring*1.1)
 	sp1.set_ylim(-R_ring*1.1, R_ring*1.1)
 	sp1.set_aspect('equal',adjustable='box')
 
-	sp1.plot(X_part, Y_part, '.r')
+	sp1.plot(X_part, Y_part, '-r', linewidth=5.)
 
-	i_turn = np.floor(np.mean(s_part)/L_ring)
+	i_turn = int(np.floor(np.mean(s_part)/L_ring))
+	if i_turn==-1:i_turn=0
 	x_turn = Amplx_vect_turn[i_turn]*np.cos(2*np.pi*i_turn/(Qx%1))
 
-	sp1.set_title('Frame %d Turn %.1f'%(ii, i_turn))
-	sp2.plot(i_turn, Amplx_vect_turn[i_turn], 'bo')
+	sp1.set_title('Turn %.0f'%(i_turn))
+	sp2.plot(i_turn, Amplx_vect_turn[i_turn], '.b', markersize=14)
 	sp2.set_xlim(0, N_turns)
+	sp2.grid('on')
+	sp2.set_ylim(bottom=0., top=np.max(Amplx_vect_turn)*1.1)
 
-	plt.savefig('tmpout/a%04d.png'%ii, dpi=100)
+	plt.subplots_adjust(left=0,right=.95, wspace=.1)
+	plt.savefig('tmpout/%s_a%04d.png'%(fname, ii), dpi=90)
+
 
 	# plt.pause(0.01)
 	# plt.draw()
-
+import os
+os.system(' '.join([
+    'ffmpeg',
+    '-i tmpout/%s'%(fname)+'_a%04d.png',
+    '-c:v libx264 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2,setpts=1.*PTS"',
+    '-profile:v high -level:v 4.0 -pix_fmt yuv420p -crf 22 -codec:a aac %s.mp4'%fname]))
 
 
 # plt.show()
