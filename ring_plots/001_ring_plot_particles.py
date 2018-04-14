@@ -5,7 +5,7 @@ import time
 
 import mystyle as ms
 
-sigmaz = 30.
+sigmaz = 15.
 
 R_ring = 100.
 
@@ -37,8 +37,8 @@ i_turn_vect = np.arange(0, (N_turns+2), 1.)
 fname = 'stationary'
 Amplx_vect_turn = 0 * np.exp(-i_turn_vect/10)
 
-fname = 'damped'
-Amplx_vect_turn = 7 * np.exp(-i_turn_vect/10) 
+# fname = 'damped'
+# Amplx_vect_turn = 7 * np.exp(-i_turn_vect/10) 
 
 # fname = 'instab'
 # Amplx_vect_turn = 1 * np.exp(i_turn_vect/10) 
