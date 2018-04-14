@@ -1,0 +1,2 @@
+For gif to pngs
+convert -coalesce photograms_illustration/Z_cutoff_sigma1000_monitor_1cm_giovanni_Ey.gif photograms_illustration/f%04d.png
