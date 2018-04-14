@@ -1,0 +1,6 @@
+File taken from:
+https://ecloudwg.web.cern.ch/content/multimedia
+
+I use this command to make it smaller and compatible with ppt:
+ffmpeg -i FCC_Quad_5ns_50.00TeV_sey1.8_pass0.avi -filter:v "scale=408:-1" -c:v libx264  -profile:v high -level:v 4.0 -pix_fmt yuv420p -crf 22 -codec:a aac Output.mp4
+
