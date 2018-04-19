@@ -27,8 +27,8 @@ Y_ring = R_ring*np.sin(theta_ring)
 L_ring = 2*np.pi*R_ring
 T_rev = L_ring/clight
 
-N_turns = 20
-N_frames = 400
+N_turns = 18
+N_frames = 450
 
 t_vect = np.linspace(0, N_turns*T_rev, N_frames)
 i_turn_vect = np.arange(0, (N_turns+2), 1.)
@@ -40,8 +40,8 @@ Amplx_vect_turn = 0 * np.exp(-i_turn_vect/10)
 # fname = 'damped'
 # Amplx_vect_turn = 7 * np.exp(-i_turn_vect/10) 
 
-# fname = 'instab'
-# Amplx_vect_turn = 1 * np.exp(i_turn_vect/10) 
+fname = 'instab'
+Amplx_vect_turn = 1 * np.exp(i_turn_vect/7.) 
 
 plt.close('all')
 ms.mystyle_arial(fontsz=16)
