@@ -60,7 +60,7 @@ import myfunc as rc
 import rotate_fortran as rf
 
 
-@profile
+#@profile
 def doit():
     N_part = 1000000
     x, xp = generate_particles(N_part)
@@ -93,29 +93,29 @@ def doit_numba():
 
 doit()
 
-if False:
-	import timeit
-	exectime = timeit.timeit(stmt = 'doit()',  setup = 'from __main__ import doit', number=2)
-	print('Exec. time: %.2f s'%exectime)
 
-	exectime = timeit.timeit(stmt = 'doit_vect()',  setup = 'from __main__ import doit_vect', number=2)
-	print('Exec. time vect: %.2f s'%exectime)
+import timeit
+exectime = timeit.timeit(stmt = 'doit()',  setup = 'from __main__ import doit', number=2)
+print('Exec. time: %.2f s'%exectime)
 
-	import timeit
-	exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
-	print('Exec. time cython: %.2f s'%exectime)
+exectime = timeit.timeit(stmt = 'doit_vect()',  setup = 'from __main__ import doit_vect', number=2)
+print('Exec. time vect: %.2f s'%exectime)
 
-	import timeit
-	exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
-	print('Exec. time cython opt: %.2f s'%exectime)
+import timeit
+exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
+print('Exec. time cython: %.2f s'%exectime)
 
-	import timeit
-	exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
-	print('Exec. fortran: %.2f s'%exectime)
+import timeit
+exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
+print('Exec. time cython opt: %.2f s'%exectime)
 
-	import timeit
-	exectime = timeit.timeit(stmt = 'doit_numba()',  setup = 'from __main__ import doit_numba', number=2)
-	print('Exec. numba: %.2f s'%exectime)
+import timeit
+exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
+print('Exec. fortran: %.2f s'%exectime)
+
+import timeit
+exectime = timeit.timeit(stmt = 'doit_numba()',  setup = 'from __main__ import doit_numba', number=2)
+print('Exec. numba: %.2f s'%exectime)
 
 # to profile:
 # kernprof --view -l 000_profile_example.py
